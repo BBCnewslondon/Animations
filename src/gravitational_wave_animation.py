@@ -89,7 +89,16 @@ def main() -> None:
         ax.clear()
         _setup_axes(ax)
         z_grid = _wave_deformation(x_grid, y_grid, 0.0)
-        surface[0] = ax.plot_surface(x_grid, y_grid, z_grid, cmap=cm.viridis, linewidth=0, antialiased=True, alpha=0.85)
+        surface[0] = ax.plot_surface(
+            x_grid,
+            y_grid,
+            z_grid,
+            cmap=cm.viridis,
+            linewidth=0,
+            antialiased=True,
+            alpha=0.85,
+            zorder=5  # <-- ADD THIS LINE
+        )
         first, second = _mass_positions(0.0)
         first_z = _wave_displacement_at(first[0], first[1], 0.0) + MASS_HEIGHT_OFFSET
         second_z = _wave_displacement_at(second[0], second[1], 0.0) + MASS_HEIGHT_OFFSET
@@ -112,7 +121,16 @@ def main() -> None:
         _setup_axes(ax)
 
         z_grid = _wave_deformation(x_grid, y_grid, time_seconds)
-        surface[0] = ax.plot_surface(x_grid, y_grid, z_grid, cmap=cm.viridis, linewidth=0, antialiased=True, alpha=0.85)
+        surface[0] = ax.plot_surface(
+            x_grid,
+            y_grid,
+            z_grid,
+            cmap=cm.viridis,
+            linewidth=0,
+            antialiased=True,
+            alpha=0.85,
+            zorder=5  # <-- ADD THIS LINE
+        )
 
         first, second = _mass_positions(time_seconds)
         first_z = _wave_displacement_at(first[0], first[1], time_seconds) + MASS_HEIGHT_OFFSET
@@ -138,6 +156,7 @@ def main() -> None:
             offset=-1.5,
             cmap="plasma",
             linewidths=0.6,
+            zorder=1  # <-- ADD THIS LINE
         )
         return surface[0], masses[0]
 
