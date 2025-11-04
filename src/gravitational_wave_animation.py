@@ -98,7 +98,11 @@ def main() -> None:
             [first[1], second[1]],
             [first_z, second_z],
             c=list(MASS_COLORS),
-            s=80,
+            s=150,            # Increased size
+            edgecolors="black", # Added for crisp border
+            alpha=1.0,          # Ensure full opacity
+            depthshade=False,   # Stop depth-based dimming
+            zorder=10            # Draw on top of the surface
         )
         return surface[0], masses[0]
 
@@ -118,8 +122,11 @@ def main() -> None:
             [first[1], second[1]],
             [first_z, second_z],
             c=list(MASS_COLORS),
-            s=80,
+            s=150,            # Increased size
             edgecolors="black",
+            alpha=1.0,          # Ensure full opacity
+            depthshade=False,   # Stop depth-based dimming
+            zorder=10            # Draw on top of the surface
         )
 
         ax.contour(
