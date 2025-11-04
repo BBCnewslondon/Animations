@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run gravitational wave animation",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"src\\gravitational_wave_animation.py"
+			],
+			"problemMatcher": []
+		}
+	]
+}
