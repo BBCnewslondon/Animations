@@ -61,7 +61,7 @@ def _wave_deformation(x_grid: np.ndarray, y_grid: np.ndarray, time_seconds: floa
     return WAVE_AMPLITUDE * np.sin(phase) * polarization * envelope
 
 
-def _setup_axes(ax: plt.Axes) -> None:
+def _setup_axes(ax: plt.Axes, fig: plt.Figure, time_seconds: float = 0.0) -> None:
     ax.set_xlim(-SPACE_EXTENT, SPACE_EXTENT)
     ax.set_ylim(-SPACE_EXTENT, SPACE_EXTENT)
     ax.set_zlim(-1.5, 1.5)
@@ -70,7 +70,7 @@ def _setup_axes(ax: plt.Axes) -> None:
     ax.set_ylabel("y (space)")
     ax.set_zlabel("z (strain)")
     ax.view_init(elev=30, azim=45)
-    ax.set_title("Gravitational Wave Distortion")
+    ax.set_title(f"Gravitational Wave Distortion - Time: {time_seconds:.1f}s")
 
 
 def main() -> None:
@@ -80,14 +80,14 @@ def main() -> None:
 
     fig = plt.figure(figsize=(8, 6), constrained_layout=True)
     ax = fig.add_subplot(111, projection="3d")
-    _setup_axes(ax)
+    _setup_axes(ax, fig, 0.0)
 
     surface = [None]
     masses = [None]
 
     def init():
         ax.clear()
-        _setup_axes(ax)
+        _setup_axes(ax, fig, 0.0)
         z_grid = _wave_deformation(x_grid, y_grid, 0.0)
         surface[0] = ax.plot_surface(
             x_grid,
@@ -99,6 +99,8 @@ def main() -> None:
             alpha=0.85,
             zorder=5  # <-- ADD THIS LINE
         )
+        # Add colorbar for strain levels
+        fig.colorbar(surface[0], ax=ax, shrink=0.5, aspect=5, label='Strain Amplitude')
         first, second = _mass_positions(0.0)
         first_z = _wave_displacement_at(first[0], first[1], 0.0) + MASS_HEIGHT_OFFSET
         second_z = _wave_displacement_at(second[0], second[1], 0.0) + MASS_HEIGHT_OFFSET
@@ -118,7 +120,7 @@ def main() -> None:
     def update(frame_index: int):
         time_seconds = frame_index / FPS
         ax.clear()
-        _setup_axes(ax)
+        _setup_axes(ax, fig, time_seconds)
 
         z_grid = _wave_deformation(x_grid, y_grid, time_seconds)
         surface[0] = ax.plot_surface(
